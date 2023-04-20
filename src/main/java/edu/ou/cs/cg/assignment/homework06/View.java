@@ -70,16 +70,16 @@ public final class View
 	// Private Class Members
 	//**********************************************************************
 
-	// TODO: Add texture files to the images/ directory then edit the filenames
+	// Added texture files to the images/ directory then edit the filenames
 	// below. *Important*: Make sure all of the images for textures are in the
 	// images/ directory before submitting. All filenames are case sensitive. 
 	private static final String		RSRC = "images/";
 	private static final String[]		FILENAMES =
 	{
-		// TODO: Replace the default skybox images with your own.
-		"log-side.jpg",	// Image #0 used to texture walls of the skybox
-		"log-ends.jpg",	// Image #1 used to texture ceiling of the skybox
-		"log-ends.jpg",	// Image #2 used to texture floor of the skybox
+		//Replaced the default skybox images with your own.
+		"mountain-walls.jpg",	// Image #0 used to texture walls of the skybox
+		"moon-ceiling.jpg",	// Image #1 used to texture ceiling of the skybox
+		"rock-floor.jpg",	// Image #2 used to texture floor of the skybox
 
 		// Leave these two alone! They're the actual textures for log objects.
 		"log-ends.jpg",	// Image #3 used to texture ends of logs/branches
@@ -228,8 +228,8 @@ public final class View
 		gl.glEnable(GL2.GL_NORMALIZE);		// Normalize normals before lighting
 		gl.glShadeModel(GL2.GL_SMOOTH);	// Use smooth (Gouraud) shading
 
-		// TODO: Adjust global ambient light for a campfire under a starlit sky.
-		float[]	ambient = new float[] { 1.00f, 1.00f, 1.00f, 1.0f };
+		//Adjusted global ambient light for a campfire under a starlit sky.
+		float[]	ambient = new float[] { 0.80f, 0.80f, 0.80f, 0.80f };
 
 		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, ambient, 0);
 	}

@@ -32,8 +32,8 @@ package edu.ou.cs.cg.assignment.homework06;
 
 //import java.lang.*;
 import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.util.*;
+import java.awt.event.KeyEvent;
+
 import com.jogamp.opengl.*;
 import edu.ou.cs.cg.utilities.Utilities;
 
@@ -55,7 +55,14 @@ public final class Model
 	private final View		view;
 
 	// Model variables
-	// TODO: YOUR MEMBERS HERE (AS NECESSARY)
+	private double camera_distance;
+
+	private double focal_point_height;
+
+	private double scene_rotation_amount;
+
+	private double scene_rotation_rate;
+
 	private double			foo;
 
 	//**********************************************************************
@@ -67,24 +74,41 @@ public final class Model
 		this.view = view;
 
 		// TODO: INITIALIZE YOUR MEMBERS HERE (AS NECESSARY)
+
+		camera_distance = 1.0;
+		focal_point_height = 0.2;
+		scene_rotation_amount = 0.0;
+		scene_rotation_rate = 0.0;
+
 		foo = 0.0;
 	}
 
 	//**********************************************************************
 	// Public Methods (Access Variables)
 	//**********************************************************************
-
-	// TODO: ADD ACCESS METHODS FOR YOUR MEMBERS HERE (AS NECESSARY)
 	public double	getFoo()
 	{
 		return foo;
 	}
 
+	public double getCamera_distance() {
+		double cd_copy = camera_distance; return cd_copy;
+	}
+	public double getFocal_point_height() {
+		double fph_copy = focal_point_height; return fph_copy;
+	}
+
+	public double getScene_rotation_amount() {
+		double sra_copy = scene_rotation_amount; return sra_copy;
+	}
+
+	public double getScene_rotation_rate() {
+		double srr_copy = scene_rotation_rate; return srr_copy;
+	}
+
 	//**********************************************************************
 	// Public Methods (Modify Variables)
 	//**********************************************************************
-
-	// TODO: ADD MODIFY METHODS FOR YOUR MEMBERS HERE (AS NECESSARY)
 	public void	setFoo(double v)
 	{
 		view.getCanvas().invoke(false, new BasicUpdater() {
@@ -93,6 +117,88 @@ public final class Model
 			}
 		});;
 	}
+
+	/*Add KeyHandler interactions to adjust the camera distance. When the <shift> key is up,
+have the <comma> and <period> keys change the distance by x0.5 and x2.0, respectively.
+When the <shift> key is down, change the distance by x0.9 and x1.1, respectively.*/
+	public void setCamera_distance(boolean shift, int e)
+	{
+		view.getCanvas().invoke(false, new BasicUpdater() {
+			public void update(GL2 gl) {
+				if(e == KeyEvent.VK_COMMA)
+				{
+					//comma + shift -> x0.9
+					if (shift)
+					camera_distance *= 0.9;
+					//comma -> x0.5;
+					else
+						camera_distance *= 0.5;
+				}
+
+				else if (e == KeyEvent.VK_PERIOD)
+				{
+					//period + shift -> x2.0
+					if (shift)
+						camera_distance *= 2.0;
+					//period -> x1.1
+					else
+						camera_distance *= 1.1;
+				}
+			}
+		});
+	}
+
+	/*Add KeyHandler interactions to adjust the focal point height. When the <shift> key is up,
+have the up and down <arrow> keys change the height by +0.2 and -0.2, respectively.
+When the <shift> key is down, change the height by +0.02 and -0.02, respectively.*/
+	public void setFocal_point_height(boolean shift, int e){
+		view.getCanvas().invoke(false, new BasicUpdater() {
+			public void update(GL2 gl) {
+				if(e == KeyEvent.VK_UP) {
+					if (shift)
+						//up + shift -> change by +0.02
+						focal_point_height += 0.02;
+					else
+						//up -> change by +0.2
+						focal_point_height += 0.2;
+				}
+
+				else if (e == KeyEvent.VK_DOWN) {
+					//down + shift -> change by -0.02
+					if (shift)
+						focal_point_height -= 0.02;
+					else
+					//down -> change by -0.2
+						focal_point_height -= 0.2;
+				}
+			}
+		});
+	}
+
+	/*Add KeyHandler interactions to adjust scene rotation rate. Have the left and right <arrow>
+keys change the rate by +0.1 and -0.1 (by +0.01 and -0.01 when the <shift> key is down).*/
+	public void setScene_rotation_rate(boolean shift, int e){
+		view.getCanvas().invoke(false, new BasicUpdater() {
+			public void update(GL2 gl) {
+				if (e == KeyEvent.VK_LEFT) {
+					//left + shift -> +0.01
+					if(shift)
+						scene_rotation_rate += 0.01;
+					//left -> +0.1
+					else scene_rotation_rate += 0.1;
+				}
+				else if (e == KeyEvent.VK_RIGHT) {
+					//Right + shift -> -0.01
+					if (shift)
+						scene_rotation_rate -= 0.01;
+					//Right -> -0.1
+					else
+						scene_rotation_rate -= 0.1;
+				}
+			}
+		});
+	}
+
 
 	//**********************************************************************
 	// Inner Classes

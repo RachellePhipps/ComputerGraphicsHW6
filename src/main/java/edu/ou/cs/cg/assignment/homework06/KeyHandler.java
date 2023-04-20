@@ -67,8 +67,39 @@ public final class KeyHandler extends KeyAdapter
 		switch (e.getKeyCode())
 		{
 			case KeyEvent.VK_Q:
+				//sounds like a threat
 				System.out.println("Quitting isn't an option! ;-)");
 				return;
+
+			//case:','
+			case KeyEvent.VK_COMMA:
+				model.setCamera_distance(b, KeyEvent.VK_COMMA);
+				return;
+
+			//case: '.'
+			case KeyEvent.VK_PERIOD:
+				model.setCamera_distance(b, KeyEvent.VK_PERIOD);
+				return;
+
+			//case up
+			case KeyEvent.VK_UP:
+				model.setFocal_point_height(b, KeyEvent.VK_UP);
+				return;
+
+			//case down
+			case KeyEvent.VK_DOWN:
+				model.setFocal_point_height(b, KeyEvent.VK_DOWN);
+				return;
+
+			//left
+			case KeyEvent.VK_LEFT:
+				model.setScene_rotation_rate(b, KeyEvent.VK_LEFT);
+				return;
+
+			//right
+			case KeyEvent.VK_RIGHT:
+				model.setScene_rotation_rate(b, KeyEvent.VK_RIGHT);
+
 		}
 	}
 }
