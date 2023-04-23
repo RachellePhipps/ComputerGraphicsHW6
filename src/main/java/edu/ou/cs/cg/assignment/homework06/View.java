@@ -85,7 +85,7 @@ public final class View
 		"log-ends.jpg",	// Image #3 used to texture ends of logs/branches
 		"log-side.jpg",	// Image #4 used to texture sides of logs/branches
 
-		// TODO: Uncomment, rename, add for any other texture images you need
+		//Uncomment, rename, add for any other texture images you need
 		//"foo.jpg",		// Image #5 used to texture the...
 		//"bar.jpg",		// Image #6 used to texture the...
 		//"baz.jpg",		// Image #7 used to texture the...
@@ -311,10 +311,12 @@ public final class View
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
 
+		double focal = model.getFocal_point_height();
+		double distance = model.getCamera_distance();
 		// TODO: Place the camera to account for the position of the user and
 		// where they're looking along the y axis (above the fire).
-		glu.gluLookAt(0.0, 1.0, 3.0,		// Camera/eyes x, y, z
-					  0.0, 0.0, 0.0,		// Focal point x, y, z
+		glu.gluLookAt(distance, 1.0, distance,		// Camera/eyes x, y, z
+					  0.0, focal, 0.0,		// Focal point x, y, z
 					  0.0, 1.0, 0.0);		// Above the head/"up"
 
 		// ****************************************
@@ -324,10 +326,13 @@ public final class View
 		// TODO: Update the current viewing angle around the campfire based on
 		// the interactively set angular rate of change.
 
-		// TODO: Apply the current viewing angle to the rotation amount for
-		// the entire scene. Currently rotates the scene by a fixed 30 degrees.
-		gl.glRotated(30.0, 0.0, 1.0, 0.0);
-		
+
+		// Apply the current viewing angle to the rotation amount for
+		// the entire scene. rotates the scene by a fixed 30 degrees.
+		gl.glRotated(k / model.getScene_rotation_rate(), model.getScene_rotation_amount(),
+				1.0, 0.0);
+
+
 		// Note: The user sets the *rate* of angular change. As the animation
 		// runs, the scene should revolve around the fire at the current rate.
 		// The rotation angle in the method above should change in each frame.
@@ -397,6 +402,119 @@ public final class View
 
 
 		// TODO: Create other objects and add them to the scene graph
+
+		//add logs to fire
+
+		float[]	emit01 = new float[] { 1.0f, 0.0f, 0.0f, 0.0f }; //red
+		Log		firelog1 = new Log(textures, 16, emit01);	// Log with 16 sides
+
+		firelog1.pushTransform(new Transform.Scale(0.12f, 0.5f, 0.11f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		firelog1.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 45.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		firelog1.pushTransform(new Transform.Translate(0.2f, 0.35f, 0.2f));
+
+		root.add(firelog1);
+
+		float[]	emit02 = new float[] { 0.0f, 0.0f, 0.0f, 1.0f }; //brown
+		Log		firelog2 = new Log(textures, 16, emit02);	// Log with 16 sides
+
+		firelog2.pushTransform(new Transform.Scale(0.12f, 0.5f, 0.11f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		firelog2.pushTransform(new Transform.Rotate(-1.0f, 0.0f, -1.0f, 45.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		firelog2.pushTransform(new Transform.Translate(-0.2f, 0.35f, 0.45f));
+
+		root.add(firelog2);
+
+		float[]	emit03 = new float[] { 0.0f, 0.0f, 1.0f, 0.0f }; //blue
+		Log		firelog3 = new Log(textures, 16, emit03);	// Log with 16 sides
+
+		firelog3.pushTransform(new Transform.Scale(0.12f, 0.5f, 0.11f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		firelog3.pushTransform(new Transform.Rotate(-1.0f, 1.0f, 0.0f, 70.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		firelog3.pushTransform(new Transform.Translate(0.05f, 0.35f, 0.5f));
+
+		root.add(firelog3);
+
+		//add seats
+
+		float[]	emit04 = new float[] { 0.0f, 1.0f, 0.0f, 0.0f }; //green
+		Log		seatlog1 = new Log(textures, 10, emit04);	// Log with 16 sides
+
+		seatlog1.pushTransform(new Transform.Scale(0.34f, 0.34f, 0.34f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		seatlog1.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		seatlog1.pushTransform(new Transform.Translate(0.75f, 0.25f, 2.0f));
+
+		root.add(seatlog1);
+
+		float[]	emit05 = new float[] { 0.0f, 1.0f, 1.0f, 0.0f }; //teal
+		Log		seatlog2 = new Log(textures, 64, emit05);	// Log with 16 sides
+
+		seatlog2.pushTransform(new Transform.Scale(0.20f, 0.50f, 0.20f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		seatlog2.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		seatlog2.pushTransform(new Transform.Translate(-0.75f, 0.25f, -2.04f));
+
+		root.add(seatlog2);
+
+		float[]	emit06 = new float[] { 0.0f, 1.0f, 0.5f, 0.5f }; //teal
+		Log		seatlog3 = new Log(textures, 5, emit06);	// Log with 16 sides
+
+		seatlog3.pushTransform(new Transform.Scale(0.20f, 0.20f, 0.20f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		seatlog3.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		seatlog3.pushTransform(new Transform.Translate(1.0f, 0.25f, -1.67f));
+
+		root.add(seatlog3);
+
+		//add path of stones
+
+		float[]	emit07 = new float[] { 0.0f, 1.0f, 0.5f, 0.5f }; //teal
+		stone	stone1 = new stone(textures, 64, emit07);
+
+		stone1.pushTransform(new Transform.Scale(0.12f, 0.03f, 0.12f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		stone1.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		stone1.pushTransform(new Transform.Translate(-1.0f, -0.02f, 1.67f));
+		root.add(stone1);
+
+		float[]	emit08 = new float[] { 0.0f, 1.0f, 0.5f, 0.5f }; //teal
+		stone	stone2 = new stone(textures, 64, emit08);
+
+		stone2.pushTransform(new Transform.Scale(0.10f, 0.03f, 0.05f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		stone2.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		stone2.pushTransform(new Transform.Translate(-1.30f, -0.02f, 2.5f));
+		root.add(stone2);
+
+		float[]	emit09 = new float[] { 0.0f, 1.0f, 0.5f, 0.5f }; //teal
+		stone	stone3 = new stone(textures, 32, emit09);
+
+		stone3.pushTransform(new Transform.Scale(0.09f, 0.03f, 0.09f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		stone3.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		stone3.pushTransform(new Transform.Translate(-1.60f, -0.02f, 1.67f));
+		root.add(stone3);
+
+
+		float[]	emit10 = new float[] { 0.0f, 1.0f, 0.5f, 0.5f }; //teal
+		stone	stone4 = new stone(textures, 32, emit10);
+
+		stone4.pushTransform(new Transform.Scale(0.09f, 0.03f, 0.09f));
+		// Rotate it 70 degrees around xy to be angled around and tilted upward
+		stone4.pushTransform(new Transform.Rotate(1.0f, 0.0f, 1.0f, 0.0f));
+		// Translate it upward to lay on trunk log (y) and near center (xz).
+		stone4.pushTransform(new Transform.Translate(-1.60f, -0.02f, 2.67f));
+		root.add(stone4);
 
 	}
 
@@ -596,6 +714,50 @@ public final class View
 	// objects for your scene as needed.
 
 	// Provides some basic functionality. Adapt to meet all of your Log needs!
+
+
+	public static final class stone extends Node {
+		//**************************************************************
+		// Private Members
+		//**************************************************************
+
+		private final int		sides;			// Allow logs to look jagged
+		private final float[]	emit;			// Allow logs to glow dimly
+
+		private final Cylinder	cylinder;		// Geometry for the log
+
+		//**************************************************************
+		// Constructors and Finalizer
+		//**************************************************************
+
+		public stone(Texture[] textures, int sides, float[] emit)
+		{
+			super(textures);
+
+			this.sides = sides;
+			this.emit = emit;
+
+			cylinder = new Cylinder(sides, -1.0f, 1.0f);
+		}
+
+		protected void	change(GL2 gl)
+		{
+			// The log just sits there, unchanging. Nothing to do...yet?
+		}
+
+		protected void	depict(GL2 gl)
+		{
+			Lighting.setMaterial(gl, null, null, null, null, emit);
+
+			cylinder.fill(gl, 	  getTexture(4));	// Around sides
+			cylinder.fillFoot(gl, getTexture(3));	// Bottom end
+			cylinder.fillHead(gl, getTexture(3));	// Top end
+		}
+
+	}
+
+
+
 	public static final class Log extends Node
 	{
 		//**************************************************************

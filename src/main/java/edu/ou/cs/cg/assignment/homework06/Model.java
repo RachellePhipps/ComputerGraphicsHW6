@@ -73,8 +73,7 @@ public final class Model
 	{
 		this.view = view;
 
-		// TODO: INITIALIZE YOUR MEMBERS HERE (AS NECESSARY)
-
+		//INITIALIZE YOUR MEMBERS HERE (AS NECESSARY)
 		camera_distance = 1.0;
 		focal_point_height = 0.2;
 		scene_rotation_amount = 0.0;
